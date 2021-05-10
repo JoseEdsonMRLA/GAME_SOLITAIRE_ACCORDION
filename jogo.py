@@ -16,19 +16,6 @@ def extrai_valor(carta):
     valor=carta[0:(len(carta)-1)]
     return valor
 
-def possui_movimentos_possiveis(novo_baralho):
-    for i in range(1,len(novo_baralho)):
-        if extrai_valor(novo_baralho[i]) == extrai_valor(novo_baralho[i-1]) or extrai_naipe(novo_baralho[i]) == extrai_naipe(novo_baralho[i-1]):
-            return True
-        if i>2:
-            if extrai_valor(novo_baralho[i]) == extrai_valor(novo_baralho[i-3]) or extrai_naipe(novo_baralho[i]) == extrai_naipe(novo_baralho[i-3]):
-                return True
-    return False
-
-def empilha (novo_baralho,seleção, i_d):
-    novo_baralho[(seleção-1)-i_d]=novo_baralho[(seleção-1)]
-    del novo_baralho[(seleção-1)]
-    return novo_baralho
 
 def lista_movimentos_possiveis(novo_baralho,seleção):
     lista = []
@@ -40,8 +27,22 @@ def lista_movimentos_possiveis(novo_baralho,seleção):
         if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-4]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-4]):
             lista.append(3)
     else:
-        seleção=input(int(f'Posição inválida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
+        seleção=input(int(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
     return lista
+
+def empilha (novo_baralho,seleção, i_d):
+    novo_baralho[(seleção-1)-i_d]=novo_baralho[(seleção-1)]
+    del novo_baralho[(seleção-1)]
+    return novo_baralho
+
+def possui_movimentos_possiveis(novo_baralho):
+    for i in range(1,len(novo_baralho)):
+        if extrai_valor(novo_baralho[i]) == extrai_valor(novo_baralho[i-1]) or extrai_naipe(novo_baralho[i]) == extrai_naipe(novo_baralho[i-1]):
+            return True
+        if i>2:
+            if extrai_valor(novo_baralho[i]) == extrai_valor(novo_baralho[i-3]) or extrai_naipe(novo_baralho[i]) == extrai_naipe(novo_baralho[i-3]):
+                return True
+    return False
 
 print('''
 Paciência Acordeão 
@@ -73,30 +74,39 @@ while possui_movimentos_possiveis(novo_baralho) == True:
     for c in novo_baralho:
         print(f'{cont}.{c}') 
         cont+=1
-    seleção= int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
     
+    seleção = input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): ')
+
+        
+    while seleção != int() or (seleção <1 and seleção>52) or seleção.isalphabetic()==True :
+        seleção=input(f'Posição inválida. Por favor, digite um número entre 1 e {len(novo_baralho)}:')        
+        
     
+    if len(lista_movimentos_possiveis(novo_baralho,seleção))== 0:
+        while len(lista_movimentos_possiveis(novo_baralho,seleção)) == 0:
+            int(input(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
+          
+
     if len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
-        if lista_movimentos_possiveis(novo_baralho,seleção)[0]==1:
-            i_d=1
-            novo_baralho=empilha(novo_baralho,seleção,i_d)
-        if lista_movimentos_possiveis(novo_baralho,seleção)[0]==3:
-            i_d=3
-            novo_baralho=empilha(novo_baralho,seleção,i_d)
+        if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 1:
+            i_d= 1
+        if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 3:
+            i_d= 3
+    novo_baralho=empilha(novo_baralho,seleção,i_d)
             
                 
     if len(lista_movimentos_possiveis(novo_baralho,seleção)) == 2:
-        print('Sobre qual carta você deseja empilhar o {novo_baralho[seleção-1]}')
-        print('1.{novo_baralho[seleção-1-1]}')
-        print('2.{novo_baralho[seleção-1-3]}')
+        print(f'Sobre qual carta você deseja empilhar o {novo_baralho[seleção-1]}?')
+        print(f'1.{novo_baralho[seleção-1-1]}')
+        print(f'2.{novo_baralho[seleção-1-3]}')
         decisão=int(input(f'Digite o número de sua escolha (1-{len(novo_baralho)}): '))
         while decisão!=1 and decisão!=2:
             print(f'Opção inválida. Sobre qual carta você quer empilhar o {novo_baralho[seleção-1]}?') 
-            print('1.{novo_baralho[seleção-1-1]}')
-            print('2.{novo_baralho[seleção-1-3]}')
+            print(f'1.{novo_baralho[seleção-1-1]}')
+            print(f'2.{novo_baralho[seleção-1-3]}')
             decisão=int(input(f'Digite o número de sua escolha (1-{len(novo_baralho)}): '))
-        if decisão==1:
-            i_d=1
+        if decisão == 1:
+            i_d= 1
             novo_baralho=empilha(novo_baralho,seleção,i_d)
         if decisão==2:
             i_d=3
@@ -114,5 +124,3 @@ while possui_movimentos_possiveis(novo_baralho) == True:
             possui_movimentos_possiveis(novo_baralho) == True
         else:
             break
-
-
