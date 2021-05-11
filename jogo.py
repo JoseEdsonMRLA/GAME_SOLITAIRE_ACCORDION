@@ -21,13 +21,14 @@ def lista_movimentos_possiveis(novo_baralho,seleção):
     lista = []
     if seleção == 1:
         return lista
-    if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-2]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-2]):
-        lista.append(1)
+    if seleção==2 or seleção==3:
+        if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-2]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-2]):
+            lista.append(1)
     if seleção>3 and seleção<=len(novo_baralho):
         if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-4]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-4]):
             lista.append(3)
     else:
-        seleção=input(int(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
+        seleção=int(input(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
     return lista
 
 def empilha (novo_baralho,seleção, i_d):
