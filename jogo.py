@@ -122,7 +122,9 @@ while possui_movimentos_possiveis(novo_baralho) == True:
                         seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
                     else:
                         break
+            else:
                 continue
+            # break
 
     elif len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
         if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 1:
@@ -149,7 +151,7 @@ while possui_movimentos_possiveis(novo_baralho) == True:
             i_d=3
             novo_baralho=empilha(novo_baralho,seleção,i_d)
         
-    if possui_movimentos_possiveis(novo_baralho) == False:
+    elif possui_movimentos_possiveis(novo_baralho) == False:
         if len(novo_baralho)==1:
             print('Você venceu! :)')
             
