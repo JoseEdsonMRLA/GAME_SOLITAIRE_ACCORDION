@@ -74,18 +74,26 @@ while possui_movimentos_possiveis(novo_baralho) == True:
     for c in novo_baralho:
         print(f'{cont}.{c}') 
         cont+=1
-    
-    seleção = input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): ')
+
+    seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
+    while True:
+        if seleção <= 0:
+            seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
+        if seleção > len(novo_baralho):
+            seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
+        else:
+            break
 
         
-    while seleção != int() or (seleção <1 and seleção>52) or seleção.isalphabetic()==True :
-        seleção=input(f'Posição inválida. Por favor, digite um número entre 1 e {len(novo_baralho)}:')        
+    # while seleção != int() or (seleção <1 and seleção>52) or seleção.isalphabetic()==True :
+    #     seleção=input(f'Posição inválida. Por favor, digite um número entre 1 e {len(novo_baralho)}:')        
         
     
     if len(lista_movimentos_possiveis(novo_baralho,seleção))== 0:
         while len(lista_movimentos_possiveis(novo_baralho,seleção)) == 0:
-            int(input(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
-          
+            seleção= int(input(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
+            if len(lista_movimentos_possiveis(novo_baralho,seleção)) > 0:
+                break
 
     if len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
         if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 1:
