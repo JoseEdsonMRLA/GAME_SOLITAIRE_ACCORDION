@@ -21,9 +21,8 @@ def lista_movimentos_possiveis(novo_baralho,seleção):
     lista = []
     if seleção == 1:
         return lista
-    if seleção==2 or seleção==3:
-        if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-2]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-2]):
-            lista.append(1)
+    if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-2]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-2]):
+        lista.append(1)
     if seleção>3 and seleção<=len(novo_baralho):
         if extrai_valor(novo_baralho[seleção-1]) == extrai_valor(novo_baralho[seleção-4]) or extrai_naipe(novo_baralho[seleção-1]) == extrai_naipe(novo_baralho[seleção-4]):
             lista.append(3)
@@ -45,6 +44,20 @@ def possui_movimentos_possiveis(novo_baralho):
                 return True
     return False
 
+def pintar(naipe):
+    if extrai_naipe(naipe) == '♠':
+        blue= '\033[1;36m'
+        cor= f'{blue}{naipe}\033[0m'
+    if extrai_naipe(naipe) == '♥':
+        red= '\033[1;31m'
+        cor= f'{red}{naipe}\033[0m'
+    if extrai_naipe(naipe) == '♣':
+        yellow='\033[1;33m'
+        cor= f'{yellow}{naipe}\033[0m'
+    if extrai_naipe(naipe) == '♦':
+        purple= '\033[1;35m'
+        cor= f'{purple}{naipe}\033[0m'
+    return cor
 print('''
 Paciência Acordeão 
 ================== 
@@ -73,7 +86,15 @@ novo_baralho = cria_baralho()
 while possui_movimentos_possiveis(novo_baralho) == True:
     cont= 1
     for c in novo_baralho:
-        print(f'{cont}.{c}') 
+        # if extrai_naipe(c)=='♦':
+        #     carta=f'\033[1;34;40m{naipe}\033[0m'
+        # elif extrai_naipe(c)=='♣':
+            
+        # elif extrai_naipe(c)=='♠':
+
+        # elif extrai_naipe(c)=='♥':
+
+        print(f'{cont}.{pintar(c)}') 
         cont+=1
 
     seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
@@ -94,17 +115,24 @@ while possui_movimentos_possiveis(novo_baralho) == True:
         while len(lista_movimentos_possiveis(novo_baralho,seleção)) == 0:
             seleção= int(input(f'A carta {novo_baralho[seleção-1]} não pode ser movida. Por favor, digite um número entre 1 e {len(novo_baralho)}: '))
             if len(lista_movimentos_possiveis(novo_baralho,seleção)) > 0:
-                break
+                while True:
+                    if seleção <= 0:
+                        seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
+                    if seleção > len(novo_baralho):
+                        seleção = int(input(f'Escolha uma carta (digite um número entre 1 e {len(novo_baralho)}): '))
+                    else:
+                        break
+                continue
 
-    if len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
+    elif len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
         if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 1:
             i_d= 1
         if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 3:
             i_d= 3
-    novo_baralho=empilha(novo_baralho,seleção,i_d)
+        novo_baralho=empilha(novo_baralho,seleção,i_d)
             
                 
-    if len(lista_movimentos_possiveis(novo_baralho,seleção)) == 2:
+    elif len(lista_movimentos_possiveis(novo_baralho,seleção)) == 2:
         print(f'Sobre qual carta você deseja empilhar o {novo_baralho[seleção-1]}?')
         print(f'1.{novo_baralho[seleção-1-1]}')
         print(f'2.{novo_baralho[seleção-1-3]}')
@@ -117,7 +145,7 @@ while possui_movimentos_possiveis(novo_baralho) == True:
         if decisão == 1:
             i_d= 1
             novo_baralho=empilha(novo_baralho,seleção,i_d)
-        if decisão==2:
+        elif decisão==2:
             i_d=3
             novo_baralho=empilha(novo_baralho,seleção,i_d)
         
