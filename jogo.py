@@ -86,14 +86,6 @@ novo_baralho = cria_baralho()
 while possui_movimentos_possiveis(novo_baralho) == True:
     cont= 1
     for c in novo_baralho:
-        # if extrai_naipe(c)=='♦':
-        #     carta=f'\033[1;34;40m{naipe}\033[0m'
-        # elif extrai_naipe(c)=='♣':
-            
-        # elif extrai_naipe(c)=='♠':
-
-        # elif extrai_naipe(c)=='♥':
-
         print(f'{cont}.{pintar(c)}') 
         cont+=1
 
@@ -106,9 +98,6 @@ while possui_movimentos_possiveis(novo_baralho) == True:
         else:
             break
 
-        
-    # while seleção != int() or (seleção <1 and seleção>52) or seleção.isalphabetic()==True :
-    #     seleção=input(f'Posição inválida. Por favor, digite um número entre 1 e {len(novo_baralho)}:')        
         
     
     if len(lista_movimentos_possiveis(novo_baralho,seleção))== 0:
@@ -124,7 +113,7 @@ while possui_movimentos_possiveis(novo_baralho) == True:
                         break
             else:
                 continue
-            # break
+            
 
     elif len(lista_movimentos_possiveis(novo_baralho,seleção)) == 1:
         if lista_movimentos_possiveis(novo_baralho,seleção)[0] == 1:
